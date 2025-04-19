@@ -48,3 +48,31 @@ SELECT o.ordrenr, o.knr, XMLElement(name "ordre",
                          XMLElement(name "betaltdato", o.betaltdato)
                          )
 FROM ordre AS o;
+
+-- Oppgave 2k)
+INSERT INTO ordre_ny(ordrenr, kundenr, ordre_xml)
+SELECT o.ordrenr, o.knr, XMLElement(name "ordre",
+        XMLElement(name "ordredato", o.ordredato),
+        XMLElement(name "sendtdato", o.sendtdato),
+        XMLElement(name "betaltdato", o.betaltdato),
+        ol_xml.ordrelinjer)
+FROM ordre AS o LEFT JOIN
+(
+SELECT ol.ordrenr, XMLElement(name "ordrelinjer",
+        xmlagg(XMLElement(name "ordrelinje",
+            XMLElement(name "vnr", ol.vnr),
+            XMLElement(name "prisprenhet", ol.prisprenhet),
+            XMLElement(name "antall", ol.antall))))
+AS ordrelinjer
+FROM ordrelinje as ol GROUP BY ol.ordrenr
+) AS ol_xml ON o.ordrenr = ol_xml.ordrenr;
+
+-- Oppgave 2m)
+SELECT ordrenr, kundenr,
+        UNNEST(XPath('//vnr/text()', ordre_xml))::text::integer vnr,
+        UNNEST(XPath('//prisprenhet/text()', ordre_xml))::text::float prisprenhet,
+        UNNEST(XPath('//antall/text()', ordre_xml))::text::integer antall
+FROM ordre_ny
+WHERE kundenr = 5643
+AND (XPath('//sendtdato/text()', ordre_xml))[1]::text::date >= '2019-08-01'::date
+AND (XPath('//sendtdato/text()', ordre_xml))[1]::text::date <= '2019-08-31'::date;
