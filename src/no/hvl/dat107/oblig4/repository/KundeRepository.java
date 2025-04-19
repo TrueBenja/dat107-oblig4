@@ -26,19 +26,19 @@ public class KundeRepository {
 		this.kunder = db.getCollection("kunde", Kunde.class);
 	}
 	
-	public /* TODO */ findByKnr(/* TODO */) {
-		/* TODO */
-	}
-
-	public /* TODO */ save(/* TODO */) {
-		/* TODO */
-	}
-
-	public /* TODO */ delete(/* TODO */) {
-		/* TODO */
-	}
-
-	public /* TODO */ update(/* TODO */) {
-		/* TODO */
-	}
+//	public /* TODO */ findByKnr(/* TODO */) {
+//		/* TODO */
+//	}
+//
+//	public /* TODO */ save(/* TODO */) {
+//		/* TODO */
+//	}
+//
+//	public /* TODO */ delete(/* TODO */) {
+//		/* TODO */
+//	}
+//
+//	public /* TODO */ update(/* TODO */) {
+//		/* TODO */
+//	}
 }
