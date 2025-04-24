@@ -9,6 +9,8 @@ import com.mongodb.client.model.ReturnDocument;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
@@ -26,19 +28,33 @@ public class KundeRepository {
 		this.kunder = db.getCollection("kunde", Kunde.class);
 	}
 	
-//	public /* TODO */ findByKnr(/* TODO */) {
-//		/* TODO */
-//	}
-//
-//	public /* TODO */ save(/* TODO */) {
-//		/* TODO */
-//	}
-//
-//	public /* TODO */ delete(/* TODO */) {
-//		/* TODO */
-//	}
-//
-//	public /* TODO */ update(/* TODO */) {
-//		/* TODO */
-//	}
+	public Kunde findByKnr(Integer knr) {
+		Bson filter = eq("knr", knr);
+		return kunder.find(filter).first();
+	}
+
+	public Kunde save(Kunde nyKunde) {
+		kunder.insertOne(nyKunde);
+		return nyKunde;
+	}
+
+	public Kunde delete(int id) {
+		return kunder.findOneAndDelete(eq("knr", id));
+	}
+
+	public Kunde update(ObjectId id, Kunde endretKunde) {
+		Bson filter = eq("_id", id);
+		UpdateOptions options = new UpdateOptions().upsert(true);
+
+		Bson oppdateringer = Updates.combine(
+				Updates.set("knr", endretKunde.getKundeNr()),
+				Updates.set("fornavn", endretKunde.getFornavn()),
+				Updates.set("etternavn", endretKunde.getEtternavn()),
+				Updates.set("adresse", endretKunde.getAdresse()),
+				Updates.set("postnr", endretKunde.getPostnr())
+		);
+
+		kunder.updateOne(filter, oppdateringer, options);
+		return endretKunde;
+	}
 }
