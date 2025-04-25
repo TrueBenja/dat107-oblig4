@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="mongodb-driver-core-4.3.0-beta2">
+    <archive path="/home/benjamin/dat107/dat107-oblig4/lib/mongodb-driver-core-4.3.0-beta2.jar" />
+  </library>
+  <library name="bson-4.3.0-beta2">
+    <archive path="/home/benjamin/dat107/dat107-oblig4/lib/bson-4.3.0-beta2.jar" />
+  </library>
+  <library name="mongodb-driver-sync-4.3.0-beta2">
+    <archive path="/home/benjamin/dat107/dat107-oblig4/lib/mongodb-driver-sync-4.3.0-beta2.jar" />
+  </library>
+  <library name="mongo-java-driver-3.7.0-rc0">
+    <archive path="/home/benjamin/dat107/dat107-oblig4/lib/mongo-java-driver-3.7.0-rc0.jar" />
+  </library>
+  <library name="slf4j-nop-2.0.0-alpha1">
+    <archive path="/home/benjamin/dat107/dat107-oblig4/lib/slf4j-nop-2.0.0-alpha1.jar" />
+  </library>
+  <library name="commons-io-2.10.0">
+    <archive path="/home/benjamin/dat107/dat107-oblig4/lib/commons-io-2.10.0.jar" />
+  </library>
+  <library name="slf4j-api-2.0.0-alpha1">
+    <archive path="/home/benjamin/dat107/dat107-oblig4/lib/slf4j-api-2.0.0-alpha1.jar" />
+  </library>
+</eclipse-userlibraries>
+
