@@ -4,13 +4,10 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import com.mongodb.client.model.FindOneAndReplaceOptions;
-import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.*;
 
 import static com.mongodb.client.model.Filters.eq;
 
-import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.model.Updates;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
@@ -44,7 +41,7 @@ public class KundeRepository {
 
 	public Kunde update(ObjectId id, Kunde endretKunde) {
 		Bson filter = eq("_id", id);
-		UpdateOptions options = new UpdateOptions().upsert(true);
+		FindOneAndUpdateOptions options = new FindOneAndUpdateOptions().upsert(true).returnDocument(ReturnDocument.AFTER);
 
 		Bson oppdateringer = Updates.combine(
 				Updates.set("knr", endretKunde.getKundeNr()),
@@ -54,7 +51,6 @@ public class KundeRepository {
 				Updates.set("postnr", endretKunde.getPostnr())
 		);
 
-		kunder.updateOne(filter, oppdateringer, options);
-		return endretKunde;
+		return kunder.findOneAndUpdate(filter, oppdateringer, options);
 	}
 }

@@ -27,13 +27,12 @@ public class MongoDbOblig4 {
         repoLoad.loadCollection("ordre", "ordre.json");
         repoLoad.loadCollection("vare", "vare.json");
 
-        
+
         // ------------------------------------------
         // Oppgave 4 d) Finn kundenr 5002
         // ------------------------------------------
         heading("Finding Kundenr = 5002");
-        
-        // TODO: Fullfør metoden findByKnr i KundeRepository
+
         Kunde kunde = repoKunde.findByKnr(5002);
         if (kunde != null) {
         	System.out.println(kunde);
@@ -46,7 +45,6 @@ public class MongoDbOblig4 {
         // ------------------------------------------
         heading("Inserting new Kunde 5001");
         
-        // TODO: Fullfør metoden save i KundeRepository
         Kunde aKunde = new Kunde(5001,"Ola", "Hansen", "Lia 2", "1234");
         Kunde nyKunde = repoKunde.save(aKunde);
 
@@ -61,7 +59,6 @@ public class MongoDbOblig4 {
         // ------------------------------------------
         heading("Slett kundenr 5007 ...");
         
-        // TODO: Fullfør metoden delete i KundeRepository
         Kunde slettetKunde = repoKunde.delete(5007);
 
         if (slettetKunde != null) {
