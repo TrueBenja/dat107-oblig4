@@ -18,16 +18,16 @@ FROM kunde AS k;
 
 -- Oppgave 2 e)
 SELECT k.knr,
-    CONCAT(UNNEST(XPath('/kunde/fornavn/text()', k.kunde_xml)), ' ', UNNEST(XPath('/kunde/etternavn/text()', k.kunde_xml))) navn,
-    UNNEST(XPath('/kunde/adresse/text()', k.kunde_xml))::text adresse,
-    UNNEST(XPath('/kunde/postnr/text()', k.kunde_xml))::text postnr
+    CONCAT(UNNEST(XPath('/kunde/fornavn/text()', k.kunde_xml)), ' ', UNNEST(XPath('/kunde/etternavn/text()', k.kunde_xml))) AS navn,
+    UNNEST(XPath('/kunde/adresse/text()', k.kunde_xml))::text AS adresse,
+    UNNEST(XPath('/kunde/postnr/text()', k.kunde_xml))::text AS postnr
 FROM kunde_ny AS k;
 
 -- Oppgave 2 f)
 SELECT k.knr,
-    CONCAT(UNNEST(XPath('/kunde/fornavn/text()', k.kunde_xml)), ' ', UNNEST(XPath('/kunde/etternavn/text()', k.kunde_xml))) navn,
-    UNNEST(XPath('/kunde/adresse/text()', k.kunde_xml))::text adresse,
-    UNNEST(XPath('/kunde/postnr/text()', k.kunde_xml))::text postnr
+    CONCAT(UNNEST(XPath('/kunde/fornavn/text()', k.kunde_xml)), ' ', UNNEST(XPath('/kunde/etternavn/text()', k.kunde_xml))) AS navn,
+    UNNEST(XPath('/kunde/adresse/text()', k.kunde_xml))::text AS adresse,
+    UNNEST(XPath('/kunde/postnr/text()', k.kunde_xml))::text AS postnr
 FROM kunde_ny AS k
 WHERE xpath_exists('/kunde[starts-with(//etternavn/text(), "A")]', k.kunde_xml)
 ORDER BY UNNEST(XPath('/kunde/etternavn/text()', k.kunde_xml))::text;
@@ -43,10 +43,10 @@ CREATE TABLE ordre_ny(
 -- Oppgave 2 i)
 INSERT INTO ordre_ny(ordrenr, kundenr, ordre_xml)
 SELECT o.ordrenr, o.knr, XMLElement(name "ordre",
-                         XMLElement(name "ordredato", o.ordredato),
-                         XMLElement(name "sendtdato", o.sendtdato),
-                         XMLElement(name "betaltdato", o.betaltdato)
-                         )
+             XMLElement(name "ordredato", o.ordredato),
+             XMLElement(name "sendtdato", o.sendtdato),
+             XMLElement(name "betaltdato", o.betaltdato)
+             )
 FROM ordre AS o;
 
 -- Oppgave 2 k)
@@ -64,12 +64,11 @@ SELECT ol.ordrenr, XMLElement(name "ordrelinjer",
             XMLElement(name "prisprenhet", ol.prisprenhet),
             XMLElement(name "antall", ol.antall))))
 AS ordrelinjer
-FROM ordrelinje as ol GROUP BY ol.ordrenr
+FROM ordrelinje AS ol GROUP BY ol.ordrenr
 ) AS ol_xml ON o.ordrenr = ol_xml.ordrenr;
 
 -- Oppgave 2 m)
-SELECT ordrenr, kundenr,
-        UNNEST(XPath('//vnr/text()', ordre_xml))::text::integer vnr,
+SELECT ordrenr, kundenr AS knr,
         UNNEST(XPath('//prisprenhet/text()', ordre_xml))::text::float prisprenhet,
         UNNEST(XPath('//antall/text()', ordre_xml))::text::integer antall
 FROM ordre_ny
